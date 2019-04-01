@@ -1,4 +1,5 @@
-FROM debian
+FROM resin/rpi-raspbian
+
 
 RUN \
   apt-get update && \
