@@ -3,6 +3,9 @@ docker-nethack-server
 
 Dockerfile for Public NetHack server
 
+## Status
+[![Build Status](https://cloud.drone.io/api/badges/bse666/docker-nethack-server/status.svg)](https://cloud.drone.io/bse666/docker-nethack-server)
+
 ## Howto
 
     docker run --detach --name=nh --publish=23:23 matsuu/nethack-server

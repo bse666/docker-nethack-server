@@ -1,0 +1,27 @@
+platform: linux/arm
+pipeline:
+  build:
+    image: docker
+    commands:
+      - docker build --force-rm --no-cache -t my-image .
+      - GIT_SHA=$(cat /dest/sha)
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /here:/dest
+   tag:
+     image: docker:git 
+     secrets: [ github_token ]
+     commands:
+       - git config remote.origin.url https://{NEED_USERNAME}:{github_token }@github.com/{NEED_USERNAME}/{NEED_REPONAME}.git
+       - git tag vMY_APP_${GIT_SHA}
+       - git push origin vMY_APP_${GIT_SHA} 
+   github_release:
+     image: plugins/github-release
+     secrets: [ github_token ]
+     files:  /dest/my-app.jar
+     checksum:
+       - sha256
+     when:
+       event: tag
+     volumes:
+        - /here:/dest
